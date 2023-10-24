@@ -1,10 +1,9 @@
 import React from 'react'
 import Notes from './Notes';
-import noteContext from '../context/notes/NoteState';
+
 
 export const Home = () => {
-    const context = useContext(noteContext); 
-    const {notes, setNotes} = context;
+    
     return (
         <div className="container my-3">
         <h2>Add a Note</h2>
@@ -24,7 +23,9 @@ export const Home = () => {
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        {/* <Notes/> */}
+        <h1>Your Notes</h1>
+        <Notes/>
+             
         </div>
         
     )
