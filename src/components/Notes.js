@@ -4,20 +4,26 @@ import noteContext from "../context/notes/NoteContext";
 import AddNote from "./AddNote";
 const Notes = () => {
   const context = useContext(noteContext);
-  const { notes, getNotes } = context;
+  const { notes, getNotes,error1,editNote } = context;
+
   useEffect(() => {
     getNotes();
   }, []);
  
   const ref=useRef(null);
-  const [note, setNote] = useState({etitle: "", edescription: "", etag: ""});
+  const refClose=useRef(null);
+  const [note, setNote] = useState({id:"" ,etitle: "", edescription: "", etag: ""});
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({etitle: currentNote.title, edescription: currentNote.description, etag:currentNote.tag})
+    setNote({id:currentNote._id,etitle: currentNote.title, edescription: currentNote.description, etag:currentNote.tag})
   }
   const handleClick = (e)=>{
-  console.log("Updating the note...", note)
-  e.preventDefault(); 
+    //update note modal prevent form to submit
+    console.log("updated note is =",note);
+    
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+       
+    refClose.current.click();
   }
   const onChange = (e)=>{
   setNote({...note, [e.target.name]: e.target.value})
@@ -25,6 +31,7 @@ const Notes = () => {
   return (
     <>
       <AddNote />
+      
       <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
             </button>
@@ -53,7 +60,7 @@ const Notes = () => {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button onClick={handleClick} type="button" className="btn btn-primary">Update Note</button>
                         </div>
                     </div>
@@ -61,6 +68,7 @@ const Notes = () => {
             </div>
       <div className="row my-3">
         <h2>You Notes</h2>
+        <div>{error1.errorCode}</div>
         {notes.map((note) => {
           return <Noteitem key={note._id} updateNote={updateNote}  note={note} />;
         })}
