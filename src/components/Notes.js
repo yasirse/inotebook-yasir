@@ -67,8 +67,8 @@ const Notes = () => {
                 </div>
             </div>
       <div className="row my-3">
-        <h2>You Notes</h2>
-        <div>{error1.errorCode}</div>
+        <h2 >You Notes</h2>
+        <h4  className={`${error1? 'block':'d-none'} text-danger`}>{error1.errorCode}</h4>
         {notes.map((note) => {
           return <Noteitem key={note._id} updateNote={updateNote}  note={note} />;
         })}
